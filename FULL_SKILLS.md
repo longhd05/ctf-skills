@@ -16,14 +16,13 @@ Tài liệu này tổng hợp **toàn bộ nội dung kỹ năng** từ tất c�
 - `ctf-writeup` (1 file markdown)
 - `solve-challenge` (1 file markdown)
 
----
-
 ## ctf-ai-ml
 
 ### ctf-ai-ml/SKILL.md
 
 > Nguồn: `ctf-ai-ml/SKILL.md`
 
+````markdown
 ---
 name: ctf-ai-ml
 description: Provides AI and machine learning techniques for CTF challenges. Use when attacking ML models, crafting adversarial examples, performing model extraction, prompt injection, membership inference, training data poisoning, fine-tuning manipulation, neural network analysis, LoRA adapter exploitation, LLM jailbreaking, or solving AI-related puzzles.
@@ -141,13 +140,13 @@ print(f'Shape: {img.shape}, Range: [{img.min():.3f}, {img.max():.3f}]')
 
 - **Gradient-based input recovery:** Using model gradients to reconstruct private training data from shared gradients (federated learning attacks). See [model-attacks.md](model-attacks.md#ml-model-inversion-via-gradient-descent-bsidessf-2025).
 - **Activation maximization:** Optimizing input to maximize a specific neuron's activation, revealing what the network has learned.
-
----
+````
 
 ### ctf-ai-ml/adversarial-ml.md
 
 > Nguồn: `ctf-ai-ml/adversarial-ml.md`
 
+````markdown
 # CTF AI/ML - Adversarial ML
 
 Adversarial machine learning techniques: generating adversarial examples, physical-world patches, evasion attacks, data poisoning, and backdoor detection. For model weight manipulation and extraction attacks, see [model-attacks.md](model-attacks.md). For LLM-specific attacks, see [llm-attacks.md](llm-attacks.md).
@@ -771,13 +770,13 @@ Image.fromarray(x.astype('uint8'), 'RGB').save('adv.png')
 **Key insight:** `K.gradients(loss, model.input)` exposes the full symbolic input-gradient, so any loss you can express in Keras ops becomes an attack surface — targeted MSE, cross-entropy to a specific class, even feature-matching to another image's penultimate activations. `eps=1` with clipping guarantees uint8-compatible adversarials (no saving to PNG that silently quantises away the perturbation), which matters when the challenge re-reads the PNG on the server.
 
 **References:** UTCTF 2019 — FaceSafe, writeup 13801
-
----
+````
 
 ### ctf-ai-ml/llm-attacks.md
 
 > Nguồn: `ctf-ai-ml/llm-attacks.md`
 
+````markdown
 # CTF AI/ML - LLM Attacks
 
 LLM-specific attack techniques: prompt injection, jailbreaking, token smuggling, context window manipulation, and tool use exploitation. For model weight attacks and extraction, see [model-attacks.md](model-attacks.md). For adversarial ML on image/tabular models, see [adversarial-ml.md](adversarial-ml.md).
@@ -1265,13 +1264,13 @@ for payloads, category in [
 ```
 
 **Key insight:** LLM agents bridge the gap between natural language and tool execution. The LLM is the "confused deputy" -- it has tool access privileges but makes authorization decisions based on the prompt, which the attacker controls. Always try to: (1) inject into tool arguments, (2) force calling restricted tools, (3) chain tools to escalate access, (4) poison data that tools retrieve. In CTF challenges, map out which tools the agent has access to (often revealed by asking "what tools do you have?") and find the most privileged one.
-
----
+````
 
 ### ctf-ai-ml/model-attacks.md
 
 > Nguồn: `ctf-ai-ml/model-attacks.md`
 
+````markdown
 # CTF AI/ML - Model Attacks
 
 Techniques for attacking ML models directly: weight manipulation, model inversion, encoder collision, LoRA adapter exploitation, model extraction, and membership inference. For adversarial example generation and data poisoning, see [adversarial-ml.md](adversarial-ml.md). For LLM-specific attacks, see [llm-attacks.md](llm-attacks.md).
@@ -1694,8 +1693,7 @@ print(f"Likely member: {threshold_attack(metrics)}")
 - **Label-only attack:** When only the predicted class is returned (no confidence), use perturbation sensitivity: members are more robust to small perturbations.
 - **Augmentation attack:** Apply data augmentations; members maintain consistent predictions across augmentations.
 - **LiRA (Likelihood Ratio Attack):** Train multiple shadow models with/without the target sample; compare loss distributions.
-
----
+````
 
 ## ctf-crypto
 
@@ -1703,6 +1701,7 @@ print(f"Likely member: {threshold_attack(metrics)}")
 
 > Nguồn: `ctf-crypto/SKILL.md`
 
+````markdown
 ---
 name: ctf-crypto
 description: Provides cryptography attack techniques for CTF challenges. Use when attacking encryption, hashing, signatures, ZKP, PRNG, or mathematical crypto problems involving RSA, AES, ECC, lattices, LWE, CVP, number theory, Coppersmith, Pollard, Wiener, padding oracle, GCM, key derivation, or stream/block cipher weaknesses.
@@ -2021,13 +2020,13 @@ Divide-and-conquer SPN key recovery: attack each S-box position independently, i
 - **SageMath:** `sage -python script.py` (required for ECC, Coppersmith, lattice attacks)
 - **RsaCtfTool:** `python RsaCtfTool.py -n <n> -e <e> --uncipher <c>` — automated RSA attack suite (tries Wiener, Hastad, Fermat, Pollard, and many more)
 - **quipqiup.com:** Automated substitution cipher solver (frequency + word pattern analysis)
-
----
+````
 
 ### ctf-crypto/advanced-math.md
 
 > Nguồn: `ctf-crypto/advanced-math.md`
 
+````markdown
 # CTF Crypto - Advanced Mathematical Attacks
 
 ## Table of Contents
@@ -2826,13 +2825,13 @@ flag_int = hensel_lift(pol, roots_p[0], p, k)
 ```
 
 **Key insight:** Any polynomial equation `P(x) ≡ 0 mod p^k` with `p` small and `p` not dividing `P'(root)` collapses to enumerating roots mod `p` (cheap) plus `k - 1` Newton-style lifts. Each lift requires *reducing intermediate values mod `p^(i+1)` at every step* — Sage's naive `solve_right` or unreduced iteration grinds to a halt because `P(r)` grows as large integers. Works for any `N = p^k` or more generally `N = prod(p_i^{k_i})` by lifting each prime-power factor independently and recombining via CRT.
-
----
+````
 
 ### ctf-crypto/classic-ciphers.md
 
 > Nguồn: `ctf-crypto/classic-ciphers.md`
 
+````markdown
 # CTF Crypto - Classic Ciphers
 
 ## Table of Contents
@@ -3484,13 +3483,13 @@ def decode(src):
 **Key insight:** Random padding in the *high* nibble can be ignored entirely — only the low nibbles carry signal. Spot the pattern when the encoded length is exactly 2x the plaintext length and histograms show uniform high-nibble distribution.
 
 **References:** Trend Micro CTF 2018 — J1, writeup 12874
-
----
+````
 
 ### ctf-crypto/ecc-attacks.md
 
 > Nguồn: `ctf-crypto/ecc-attacks.md`
 
+````markdown
 # CTF Crypto - Elliptic Curve Attacks
 
 ## Table of Contents
@@ -3838,13 +3837,13 @@ r = (f.derivative()).roots()[0][0]
 **Key insight:** Discriminant `-16(4a^3 + 27b^2)` zero means singular. Singular curves are either cusps (map to `(GF(p), +)`) or nodes (map to `GF(p)^*`) — both with polynomial-time DLP.
 
 **References:** hxp CTF 2018 — writeup 12563
-
----
+````
 
 ### ctf-crypto/exotic-crypto-2.md
 
 > Nguồn: `ctf-crypto/exotic-crypto-2.md`
 
+````markdown
 # CTF Crypto - Exotic Algebraic Structures (Part 2)
 
 Covers 2017+ era exotic crypto attacks (BB-84 QKD, ElGamal variants, Paillier oracles, differential privacy, homomorphic bit extraction, Jordan normal form, OSS forgery, Cayley-Purser, BIP39 brute, Asmuth-Bloom, Rabin polynomial primes, LCG period, Vandermonde recovery). For Part 1 foundational exotic structures, see [exotic-crypto.md](exotic-crypto.md).
@@ -4224,13 +4223,13 @@ for cand in (r1, r2, s1, s2):
 ```
 
 **Key insight:** Rabin decryption inherently produces four candidates because `x^2 ≡ c mod n` has four roots mod `n = p*q`. When `p, q ≡ 3 mod 4`, per-prime roots are the closed-form exponentiation `c^((p+1)/4) mod p` — no Tonelli-Shelanks needed. Combine with Bezout coefficients `yp*p + yq*q = 1` to get the four CRT candidates `±(yp*p*mq ± yq*q*mp) mod n`, and select by plaintext sanity (ASCII, magic bytes, known prefix). The four-root ambiguity is why Rabin typically needs redundancy in the plaintext to be useful as a cryptosystem.
-
----
+````
 
 ### ctf-crypto/exotic-crypto.md
 
 > Nguồn: `ctf-crypto/exotic-crypto.md`
 
+````markdown
 # CTF Crypto - Exotic Algebraic Structures
 
 ## Table of Contents
@@ -4759,13 +4758,13 @@ plaintext = AES.new(aes_key, AES.MODE_CBC, captured_iv).decrypt(captured_ct)
 
 
 See [exotic-crypto-2.md](exotic-crypto-2.md) for 2017+ era exotic crypto attacks (BB-84, ElGamal variants, Paillier oracles, Cayley-Purser, BIP39, Asmuth-Bloom, Rabin polynomial, Vandermonde).
-
----
+````
 
 ### ctf-crypto/historical.md
 
 > Nguồn: `ctf-crypto/historical.md`
 
+````markdown
 # CTF Crypto - Historical Ciphers
 
 ## Table of Contents
@@ -4879,13 +4878,13 @@ def decode_book_cipher(cipher_distances, book_text, valid_chars):
             candidates.append((start_key, ''.join(password)))
     return candidates  # Typically 3-4 candidates out of ~56k positions
 ```
-
----
+````
 
 ### ctf-crypto/lattice-and-lwe.md
 
 > Nguồn: `ctf-crypto/lattice-and-lwe.md`
 
+````markdown
 # CTF Crypto - Lattice and LWE Attacks
 
 ## Table of Contents
@@ -5410,13 +5409,13 @@ Then:
 - If the instance is polynomial-based, did I first flatten it into coefficient vectors?
 
 If most answers are "yes", the challenge is very likely meant to be solved with lattice reduction.
-
----
+````
 
 ### ctf-crypto/modern-ciphers-2.md
 
 > Nguồn: `ctf-crypto/modern-ciphers-2.md`
 
+````markdown
 # CTF Crypto - Modern Cipher Attacks (Continued)
 
 Hash-based attacks, protocol-level exploits, ECB oracles, Rabin/RSA parity attacks, and specialized cipher weaknesses. For core AES/CBC/padding oracle techniques, see [modern-ciphers.md](modern-ciphers.md). For stream cipher attacks (LFSR, RC4, XOR), see [stream-ciphers.md](stream-ciphers.md).
@@ -5980,13 +5979,13 @@ cookies['user']      = binascii.hexlify(iv + encrypt(new_plain))
 ---
 
 See [modern-ciphers-3.md](modern-ciphers-3.md) for custom hash reversal, CRC32 brute-force, noisy RSA LSB oracle, sponge collisions, CBC IV forgery + block truncation, padding oracle + bit-flip command injection, SPN S-box intersection, AES-CFB IV recovery, three-round XOR, Unicode decode side channel, SHA-256 basis attack, MAC forgery via XOR block cancellation, and bit-by-bit HMAC key recovery.
-
----
+````
 
 ### ctf-crypto/modern-ciphers-3.md
 
 > Nguồn: `ctf-crypto/modern-ciphers-3.md`
 
+````markdown
 # CTF Crypto - Modern Cipher Attacks (Part 3)
 
 Custom hash reversal, CRC brute-force, noisy RSA oracles, sponge collisions, CBC/padding oracle tricks, SPN recovery, AES-CFB, three-round XOR, Unicode side channels, SHA-256 basis attacks, MAC forgery, HMAC bit oracles. For Blum-Goldwasser, hash length extension, compression oracles, OFB/HMAC-CRC/DES weak keys, SRP, square attack, AES-ECB/CBC oracles, Rabin, PBKDF2, and MD5 multi-collision, see [modern-ciphers-2.md](modern-ciphers-2.md).
@@ -6440,13 +6439,13 @@ forged_cookie = b64encode(bytes(buf)).decode()
 ```
 
 **Key insight:** In AES-CBC, `P_{n+1} = AES_dec(C_{n+1}) XOR C_n`. Flipping byte `i` of `C_n` flips byte `i` of `P_{n+1}` with zero side effects on `P_{n+1}`, but turns `P_n` (which was `AES_dec(C_n) XOR C_{n-1}`) into pseudo-random garbage. Works whenever the server (a) uses CBC without integrity checks, (b) parses the JSON/cookie leniently enough to tolerate a corrupted earlier block (unknown-key field, ignored garbage, lenient JSON parser), and (c) exposes the block boundary offset of the target byte. Contrast with [AES-CBC IV Bit-Flip (Google CTF 2016)](modern-ciphers-2.md#aes-cbc-iv-bit-flip-authentication-bypass-google-ctf-2016), which targets block 0 by flipping the IV and leaves all later blocks intact.
-
----
+````
 
 ### ctf-crypto/modern-ciphers.md
 
 > Nguồn: `ctf-crypto/modern-ciphers.md`
 
+````markdown
 # CTF Crypto - Modern Cipher Attacks
 
 Block cipher attacks, MAC forgery, padding oracles, and authenticated encryption. For hash/signature attacks (hash extension, PBKDF2, MD5 collision, Rabin, ECB oracles), see [modern-ciphers-2.md](modern-ciphers-2.md). For stream cipher attacks (LFSR, RC4, XOR), see [stream-ciphers.md](stream-ciphers.md).
@@ -7096,13 +7095,13 @@ assert recovered.startswith(b"admin")
 **Key insight:** CBC's IV is only consulted for the first block — every subsequent block uses the previous ciphertext as its "IV". That means any contiguous slice of a CBC ciphertext is itself a valid CBC ciphertext if you promote the preceding block (or a supplied IV) to the new IV. Whenever a fixed-size header (nonce, magic bytes, counter) occupies exactly one block, the attacker can strip it by reusing that block as an IV. Defend by binding the header into the authentication tag (AEAD) or including its offset in an HMAC.
 
 **References:** Trend Micro CTF 2018 — Offensive-Analysis 400, writeup 11130
-
----
+````
 
 ### ctf-crypto/prng-attacks.md
 
 > Nguồn: `ctf-crypto/prng-attacks.md`
 
+````markdown
 # CTF Crypto - PRNG Attacks (CTF-Era Techniques)
 
 Advanced CTF-specific PRNG attacks from 2017 onward. For foundational PRNG recovery (MT19937, LCG parameter recovery, ChaCha20, V8 XorShift128+, password cracking), see [prng.md](prng.md).
@@ -7360,13 +7359,13 @@ predicted = [libc.rand() for _ in range(n)]
 **Key insight:** Any randomness mixed via XOR with a user-controlled value is the same as giving the attacker the state directly. Check all time sources for user control.
 
 **References:** RuCTFe 2018 — vch, writeup 12146
-
----
+````
 
 ### ctf-crypto/prng.md
 
 > Nguồn: `ctf-crypto/prng.md`
 
+````markdown
 # CTF Crypto - PRNG & Key Recovery
 
 Foundational PRNG state/seed recovery techniques. For CTF-era advanced attacks (MT19937 constraint propagation, Rule 86 cellular automaton, Java LCG MITM, LFSR bit-fold, Z3 timing oracle, randcrack DSA, NTP-poisoned UUID), see [prng-attacks.md](prng-attacks.md).
@@ -8031,13 +8030,13 @@ leet speak               → p@ssw0rd, s3cr3t
 ---
 
 See [prng-attacks.md](prng-attacks.md) for CTF-era advanced attacks (2017+).
-
----
+````
 
 ### ctf-crypto/rsa-attacks-2.md
 
 > Nguồn: `ctf-crypto/rsa-attacks-2.md`
 
+````markdown
 # CTF Crypto - RSA Attacks (Part 2: Specialized Techniques)
 
 ## Table of Contents
@@ -8830,13 +8829,13 @@ send_priv(priv_cmd, sig=hex(t % N))              # forged signature for get-flag
 ```
 
 **Key insight:** Textbook RSA signatures are multiplicative: `sign(a) * sign(b) = sign(a*b) mod N`. If the "hash" is actually a linear/factorable function (CRC32, fold-XOR), factor the target digest into pieces small enough to fit in CRC output space, then use a CRC collision finder (`crchack`) to realise each factor as an innocuous message the oracle will sign. Multiply the signatures mod `N` to forge the privileged signature. Works for any signature scheme over a hash that is both homomorphic-friendly *and* collidable to specific targets.
-
----
+````
 
 ### ctf-crypto/rsa-attacks.md
 
 > Nguồn: `ctf-crypto/rsa-attacks.md`
 
+````markdown
 # CTF Crypto - RSA Attacks
 
 ## Table of Contents
@@ -9324,13 +9323,13 @@ See [advanced-math.md](advanced-math.md) for GF(2)[x] polynomial arithmetic and 
 See [advanced-math.md](advanced-math.md) for CRT approach and Gauss-Jordan implementation.
 
 See also: [rsa-attacks-2.md](rsa-attacks-2.md) for specialized RSA techniques (p=q bypass, cube root CRT, phi(n) multiple factoring, signature forgery, weak keygen, batch GCD, partial key recovery, CRT fault attack, homomorphic bypass).
-
----
+````
 
 ### ctf-crypto/stream-ciphers.md
 
 > Nguồn: `ctf-crypto/stream-ciphers.md`
 
+````markdown
 # CTF Crypto - Stream Cipher Attacks
 
 LFSR, RC4, and XOR-based stream cipher attacks. For block cipher attacks (AES, padding oracle, MAC forgery), see [modern-ciphers.md](modern-ciphers.md).
@@ -9721,13 +9720,13 @@ flag = bytes(b ^ hostname[i % len(hostname)] for i, b in enumerate(ct))
 **Key insight:** DNS queries, HTTP `Host` headers, and TLS SNI often leak secrets that the binary treats as confidential. Always pcap the challenge binary during execution — the "key" may never even touch memory you can inspect.
 
 **References:** SECCON 2018 — Boguscrypt, writeup 12054
-
----
+````
 
 ### ctf-crypto/zkp-and-advanced.md
 
 > Nguồn: `ctf-crypto/zkp-and-advanced.md`
 
+````markdown
 # CTF Crypto - ZKP, Solvers & Advanced Techniques
 
 ## Table of Contents
@@ -10184,8 +10183,7 @@ flag = ''.join(chr(shares[i] - shares[0] + ord('f')) for i in range(len(shares))
 **Key insight:** In correct Shamir SSS, each secret byte uses independent random coefficients. When coefficients are reused, subtracting any two shares at the same evaluation point cancels all randomness, leaving only the difference between the corresponding secret bytes.
 
 **References:** PoliCTF 2017
-
----
+````
 
 ## ctf-forensics
 
@@ -10193,6 +10191,7 @@ flag = ''.join(chr(shares[i] - shares[0] + ord('f')) for i in range(len(shares))
 
 > Nguồn: `ctf-forensics/SKILL.md`
 
+````markdown
 ---
 name: ctf-forensics
 description: Provides digital forensics and signal analysis techniques for CTF challenges. Use when analyzing disk images, memory dumps, event logs, network captures, cryptocurrency transactions, steganography, PDF analysis, Windows registry, Volatility, PCAP, Docker images, coredumps, side-channel power traces, DTMF audio spectrograms, packet timing analysis, CD audio disc images, or recovering deleted files and credentials.
@@ -10571,13 +10570,13 @@ echo "hexstring" | xxd -r -p
 ```
 
 **ROT18:** ROT13 on letters + ROT5 on digits. Common final layer in multi-stage forensics. See [linux-forensics.md](linux-forensics.md) for implementation.
-
----
+````
 
 ### ctf-forensics/3d-printing.md
 
 > Nguồn: `ctf-forensics/3d-printing.md`
 
+````markdown
 # CTF Forensics - 3D Printing / CAD File Forensics
 
 ## Table of Contents
@@ -10699,13 +10698,13 @@ grep "^G1" output.gcode | awk '{print $2, $3}' > coords.txt
 | `OggS` | Ogg container | `.ogg` | Audio/video |
 | `RIFF` | RIFF container | `.wav`,`.avi` | Check subformat |
 | `%PDF` | PDF | `.pdf` | Check metadata & embedded objects |
-
----
+````
 
 ### ctf-forensics/disk-advanced.md
 
 > Nguồn: `ctf-forensics/disk-advanced.md`
 
+````markdown
 # CTF Forensics - Advanced Disk and Memory Techniques
 
 ## Table of Contents
@@ -11203,13 +11202,13 @@ for op_type, position, text in diffs:
 
 - [disk-and-memory.md](disk-and-memory.md) - Core disk and memory forensics (Volatility 3, disk image analysis, VM/OVA/VMDK forensics, VMware snapshots, GIMP raw memory dump visual inspection, coredump analysis, Windows KAPE triage, PowerShell ransomware, Android forensics, Docker container forensics, cloud storage forensics, BSON reconstruction, TrueCrypt/VeraCrypt mounting)
 - [disk-recovery.md](disk-recovery.md) - Disk recovery and extraction patterns (LUKS master key recovery, PRNG timestamp seed brute-force, VBA macro binary recovery, FemtoZip decompression, XFS reconstruction, tar duplicate entry extraction, nested matryoshka filesystem extraction, anti-carving via null byte interleaving)
-
----
+````
 
 ### ctf-forensics/disk-and-memory.md
 
 > Nguồn: `ctf-forensics/disk-and-memory.md`
 
+````markdown
 # CTF Forensics - Disk and Memory Analysis
 
 ## Table of Contents
@@ -11701,13 +11700,13 @@ md5sum target1.pdf target2.pdf    # identical
 
 - [disk-advanced.md](disk-advanced.md) - Advanced disk and memory techniques (deleted partition recovery, ZFS forensics, GPT GUID encoding, VMDK sparse parsing, memory dump string carving, ransomware key recovery, WordPerfect macro XOR, minidump ISO 9660 recovery, APFS snapshot recovery, RAID 5 XOR recovery, Kyoto Cabinet hash DB forensics)
 - [disk-recovery.md](disk-recovery.md) - Disk recovery and extraction patterns (LUKS master key recovery, PRNG timestamp seed brute-force, VBA macro binary recovery, FemtoZip decompression, XFS reconstruction, tar duplicate entry extraction, nested matryoshka filesystem extraction, anti-carving via null byte interleaving)
-
----
+````
 
 ### ctf-forensics/disk-recovery.md
 
 > Nguồn: `ctf-forensics/disk-recovery.md`
 
+````markdown
 # CTF Forensics - Disk Recovery and Extraction Patterns
 
 ## Table of Contents
@@ -12407,13 +12406,13 @@ for i in range(10000):
 
 - [disk-and-memory.md](disk-and-memory.md) - Core disk/memory forensics (Volatility, disk image analysis, VM/OVA/VMDK, VMware snapshots, coredumps, KAPE triage, PowerShell ransomware, Android/Docker/cloud forensics, BSON reconstruction, TrueCrypt/VeraCrypt mounting)
 - [disk-advanced.md](disk-advanced.md) - Advanced disk and memory techniques (deleted partitions, ZFS forensics, GPT GUID encoding, VMDK sparse parsing, memory dump string carving, ransomware key recovery, WordPerfect macro XOR, minidump ISO 9660 recovery, APFS snapshots, RAID 5 XOR recovery)
-
----
+````
 
 ### ctf-forensics/linux-forensics.md
 
 > Nguồn: `ctf-forensics/linux-forensics.md`
 
+````markdown
 # CTF Forensics - Linux and Application Forensics
 
 ## Table of Contents
@@ -12925,13 +12924,13 @@ print(globals())  # May contain flags, keys, etc.
 **Key insight:** `pyrasite` injects a Python shell into a running process via `ptrace`. All code objects and global variables remain in memory even after the source file is deleted. `uncompyle6` decompiles `func_code` objects back to readable Python source. For Python 3.9+ processes, use [`pycdc`](https://github.com/zrax/pycdc) instead (`pycdc` operates on `.pyc` files — write code objects to disk with `marshal.dump` first).
 
 **Detection:** Challenge provides access to a running system where a Python process is active but the `.py` source file has been deleted. `ls -l /proc/<PID>/exe` shows the Python interpreter; `/proc/<PID>/fd/` may still reference the deleted file. Check `ptrace` permissions (`/proc/sys/kernel/yama/ptrace_scope`).
-
----
+````
 
 ### ctf-forensics/network-advanced.md
 
 > Nguồn: `ctf-forensics/network-advanced.md`
 
+````markdown
 # CTF Forensics - Network (Advanced)
 
 For USB/HID/Bluetooth peripheral capture analysis (mouse/pen drawing recovery, keyboard scan codes, LED Morse exfiltration, RFCOMM reassembly), see [peripheral-capture.md](peripheral-capture.md). For basic network forensics, see [network.md](network.md).
@@ -13515,13 +13514,13 @@ print(data)
 **Key insight:** ICMP timing covert channels split a continuous latency distribution into discrete bins. The two thresholds matter more than the exact values: any bimodal "fast vs slow" distribution flanked by a "filler" region lets the receiver self-clock. Detect this channel by plotting the histogram of `reply_time - request_time` for all ICMP pairs — legit traffic forms a single Gaussian, covert traffic shows clear modes.
 
 **References:** DefCamp CTF Qualification 2018 — Broken TV, writeup 11415
-
----
+````
 
 ### ctf-forensics/network.md
 
 > Nguồn: `ctf-forensics/network.md`
 
+````markdown
 # CTF Forensics - Network
 
 ## Table of Contents
@@ -14167,13 +14166,13 @@ print(flag)
 **References:** TokyoWesterns CTF 4th 2018 — writeup 10866
 
 See also: [network-advanced.md](network-advanced.md) for advanced network forensics techniques (packet interval timing encoding, USB HID mouse/pen drawing recovery, NTLMv2 hash cracking, TCP flag covert channels, DNS steganography, multi-layer PCAP with XOR, Brotli decompression bomb seam analysis, SMB RID recycling, Timeroasting MS-SNTP).
-
----
+````
 
 ### ctf-forensics/peripheral-capture.md
 
 > Nguồn: `ctf-forensics/peripheral-capture.md`
 
+````markdown
 # CTF Forensics - Peripheral Capture Analysis
 
 USB, HID, and Bluetooth peripheral traffic reconstruction from packet captures. For general network PCAP forensics (DNS/TCP/ICMP/SMB/RADIUS/RC4), see [network-advanced.md](network-advanced.md). For basic network forensics, see [network.md](network.md).
@@ -14461,13 +14460,13 @@ img.save('screen.png')
 **Key insight:** Handheld console debug protocols usually wrap memory dumps in typed blocks. When you see GBA/NDS/PSP USB traffic, grep for block type 6 (framebuffer) or type 7 (audio) before parsing the rest.
 
 **References:** hxp CTF 2018 — cheatquest of hxpschr 2, writeup 12591
-
----
+````
 
 ### ctf-forensics/signals-and-hardware.md
 
 > Nguồn: `ctf-forensics/signals-and-hardware.md`
 
+````markdown
 # CTF Forensics - Signals and Hardware
 
 ## Table of Contents
@@ -15181,13 +15180,13 @@ with open('capture.csv') as f:
 **Key insight:** Logic-analyzer CSV is always edge-sampled. Identify the clock column by its 50%-duty cycle, then sample the data columns synchronously at every rising edge. Works for any synchronous bus (RGB, SPI, I²C clock line).
 
 **References:** 35C3 CTF 2018 — box of blink, writeup 12907
-
----
+````
 
 ### ctf-forensics/steganography.md
 
 > Nguồn: `ctf-forensics/steganography.md`
 
+````markdown
 # CTF Forensics - Steganography
 
 Non-image steganography techniques (PDF, SVG, terminal, text, compression, spreadsheet) and general-purpose image stego patterns (PNG structure, file overlays, GIF, autostereograms, interleaving). For image-specific steganography (JPEG DQT/F5/slack, BMP bitplane, PNG palette, pixel permutation, edge matching), see [stego-image.md](stego-image.md). For advanced techniques (FFT, SSTV, audio, video, JPEG XL), see [stego-advanced.md](stego-advanced.md) and [stego-advanced-2.md](stego-advanced-2.md).
@@ -15882,13 +15881,13 @@ SVG contains a visible graphic plus a second `<g>` element with extremely small 
 ```
 
 **Key insight:** SVG coordinates with many decimal places hide micro-scale drawings invisible at normal zoom. Check for `<g>` elements with coordinate values that cluster in a tiny range. The fractional parts of the coordinates define the hidden image. Scale up by 100-1000x and translate to the cluster center to reveal. When SVG file size is unexpectedly large for the visible content, inspect coordinate precision in `<path>`, `<line>`, or `<g>` elements.
-
----
+````
 
 ### ctf-forensics/stego-advanced-2.md
 
 > Nguồn: `ctf-forensics/stego-advanced-2.md`
 
+````markdown
 # CTF Forensics - Advanced Steganography (Part 2)
 
 See also: [stego-advanced.md](stego-advanced.md) for audio steganography (FFT frequency domain, DTMF, SSTV, LSB audio, musical notes, metadata encoding, waveform binary, spectrogram QR) and whitespace/archive encoding.
@@ -16364,13 +16363,13 @@ for bits in product([0, 1], repeat=len(palette)):
 **Key insight:** QR codes are strictly binary — any multi-color image that "looks like" a QR is hiding a 2^N coloring. Because QR has heavy Reed-Solomon error correction, multiple partitions can decode (each carries a different message in the same physical grid). Always try all 2^N mappings; with N<=8 the brute force is negligible and `zbarimg` filters the valid ones automatically.
 
 **References:** STEM CTF: Cyber Challenge 2019 — QvR Code, writeup 13375
-
----
+````
 
 ### ctf-forensics/stego-advanced.md
 
 > Nguồn: `ctf-forensics/stego-advanced.md`
 
+````markdown
 # CTF Forensics - Advanced Steganography
 
 See also: [stego-advanced-2.md](stego-advanced-2.md) for video frame techniques, JPEG XL TOC permutation, Arnold's Cat Map, SSTV FM demodulation, MJPEG steganography, EXIF/Stegano pixel patterns, PDF xref covert channels, ANSI escape code stego, and ECB image recovery.
@@ -16851,13 +16850,13 @@ flag = ''.join(chr(o + f) for o, f in zip(ons, offs))
 **References:** X-MAS CTF 2018 — A Christmas Carol, writeup 12667
 
 ---
-
----
+````
 
 ### ctf-forensics/stego-image.md
 
 > Nguồn: `ctf-forensics/stego-image.md`
 
+````markdown
 # CTF Forensics - Image Steganography
 
 Techniques specific to hiding data in image formats (JPEG, PNG, BMP, GIF). For non-image steganography (PDF, audio, terminal, text), see [steganography.md](steganography.md). For advanced techniques (FFT, SSTV, audio, video, JPEG XL), see [stego-advanced.md](stego-advanced.md) and [stego-advanced-2.md](stego-advanced-2.md).
@@ -17549,13 +17548,13 @@ exiftool fixed.png | grep -Ei 'artist|comment|desc'
 **Key insight:** PNG has two orthogonal parseability gates: the 8-byte signature and the case of each chunk name (first letter uppercase = critical). Fix both before concluding the file is empty. `pngcheck -v` flags exactly which byte/chunk is wrong. Once readable, treat EXIF `Artist`, `Description`, and `tEXt`/`iTXt` chunks as prime hiding spots.
 
 **References:** Pragyan CTF 2019 — Magic PNGs, writeup 13833
-
----
+````
 
 ### ctf-forensics/windows.md
 
 > Nguồn: `ctf-forensics/windows.md`
 
+````markdown
 # CTF Forensics - Windows
 
 ## Table of Contents
@@ -18181,8 +18180,7 @@ vol.py -f dump.vmem --profile=Win7SP1x64 dlllist -p PID
 **Key insight:** Don't hunt with `strings` alone. The Volatility plugin suite has a plugin for every artifact: clipboard, mimikatz (plaintext), hashdump (hashes), printkey (registry), memdump (per-process memory), netscan (sockets), pstree (process hierarchy), dlllist (loaded modules). Run them in order from cheapest to most expensive.
 
 **References:** OtterCTF 2018 — multiple challenges, writeups 12569–12572, 12596
-
----
+````
 
 ## ctf-malware
 
@@ -18190,6 +18188,7 @@ vol.py -f dump.vmem --profile=Win7SP1x64 dlllist -p PID
 
 > Nguồn: `ctf-malware/SKILL.md`
 
+````markdown
 ---
 name: ctf-malware
 description: Provides malware analysis and network traffic techniques for CTF challenges. Use when analyzing obfuscated scripts, malicious packages, custom crypto protocols, C2 traffic, PE/.NET binaries, RC4/AES encrypted communications, YARA rules, shellcode analysis, memory forensics for malware (Volatility malfind, process injection detection), anti-analysis techniques (VM/sandbox detection, timing evasion, API hashing, process injection, environment checks), or extracting malware configurations and indicators of compromise.
@@ -18369,13 +18368,13 @@ Disassemble with `objdump -b binary -m i386:x86-64`, emulate with Unicorn Engine
 strings malware | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
 tshark -r capture.pcap -Y "dns.qry.name" -T fields -e dns.qry.name | sort -u
 ```
-
----
+````
 
 ### ctf-malware/c2-and-protocols.md
 
 > Nguồn: `ctf-malware/c2-and-protocols.md`
 
+````markdown
 # C2 Traffic and Protocol Analysis
 
 ## Table of Contents
@@ -18650,13 +18649,13 @@ A few seconds later the intercepted stream contains `PASS underling` and `JOIN #
 **Key insight:** Non-HTTP C2 (IRC, custom TCP) defeats `mitmproxy --mode transparent` defaults, but ARP spoofing plus forged RSTs turn any long-lived TCP session into a replayable handshake — you do not need to crack the auth, you just force the client to perform it again in front of you. Combine with mitmproxy raw-TCP source edits for in-flight payload substitution when you need to stay invisible to both endpoints.
 
 **References:** TAMUctf 2019 — Alt-F4 for Ops, writeup 13478
-
----
+````
 
 ### ctf-malware/pe-and-dotnet.md
 
 > Nguồn: `ctf-malware/pe-and-dotnet.md`
 
+````markdown
 # PE, .NET, and Binary Malware Analysis
 
 ## Table of Contents
@@ -18765,13 +18764,13 @@ python pyinstxtractor.py malware.exe
 # Remove fake/dead-code functions (confusion code)
 # Identify core encryption/exfiltration logic
 ```
-
----
+````
 
 ### ctf-malware/scripts-and-obfuscation.md
 
 > Nguồn: `ctf-malware/scripts-and-obfuscation.md`
 
+````markdown
 # Scripts and Obfuscation Analysis
 
 ## Table of Contents
@@ -19221,8 +19220,7 @@ flag = requests.get(f"http://{domain}/{path}", cookies={"uuid": uuid}).text
 ```
 
 **Key insight:** Trojanized plugins inject code in exception handlers (try/except blocks visible in diff). Custom alphabets for C2 encoding use modular rotation instead of standard ciphers. Always diff suspicious packages against known-good releases from the official repository to isolate injected code.
-
----
+````
 
 ## ctf-misc
 
@@ -19230,6 +19228,7 @@ flag = requests.get(f"http://{domain}/{path}", cookies={"uuid": uuid}).text
 
 > Nguồn: `ctf-misc/SKILL.md`
 
+````markdown
 ---
 name: ctf-misc
 description: Provides miscellaneous CTF challenge techniques for problems that do not cleanly fit the main categories. Use for encoding puzzles, pyjails, bash jails, RF/SDR, DNS oddities, unicode tricks, esoteric languages, QR or audio puzzles, constraint solving, game theory, unusual sandbox escapes, and hybrid logic puzzles. Prefer a more specific skill first when the challenge is mainly web, pwn, reverse, forensics, malware, OSINT, or crypto. Treat this as the fallback skill for genuine cross-category or edge-case challenges, not the default starting point.
@@ -19726,13 +19725,13 @@ Oracle returns edit distance between guess and secret. Determine length from emp
 ## rvim Jail Escape via Python3 (BKP 2017)
 
 `rvim` blocks `:!` but `:python3 import os; os.system("cmd")` executes arbitrary commands. Check `:version` for `+python3`/`+lua`/`+ruby`. See [games-and-vms-3.md](games-and-vms-3.md#rvim-jail-escape-via-custom-vimrc-with-python3-execution-bkp-2017).
-
----
+````
 
 ### ctf-misc/bashjails.md
 
 > Nguồn: `ctf-misc/bashjails.md`
 
+````markdown
 # CTF Misc - Bash Jails & Restricted Shells
 
 ## Table of Contents
@@ -20056,13 +20055,13 @@ exec 1>&0              # duplicate the socket fd onto stdout for future cmds
 ## References
 
 - 0xL4ugh CTF "HashCashSlash": Filter `^[\\#\$]+$`, payload `\$$#`, internal socat flag service
-
----
+````
 
 ### ctf-misc/ctfd-navigation.md
 
 > Nguồn: `ctf-misc/ctfd-navigation.md`
 
+````markdown
 # CTFd Platform Navigation (No Browser)
 
 Programmatic interaction with CTFd-based CTF platforms via REST API. Eliminates browser dependency during competitions.
@@ -20528,13 +20527,13 @@ if __name__ == '__main__':
 | Empty challenge list | CTF hasn't started | Check CTF start time in notifications or config |
 | `nonce` missing | Login page changed or anti-bot | Try API token auth instead of session login |
 | Connection info not in API | Some CTFs use dynamic instances | Check for challenge-specific instance API or Docker endpoints |
-
----
+````
 
 ### ctf-misc/dns.md
 
 > Nguồn: `ctf-misc/dns.md`
 
+````markdown
 # CTF Misc - DNS Exploitation Techniques
 
 ## Table of Contents
@@ -20790,13 +20789,13 @@ print(tfo_send('10.13.37.99', 3737, b'SyN cat ./secret/me/not/flag.txt'))
 **Key insight:** Classic port scans (`nmap -sS`, `nc -vz`) don't carry SYN data, so TFO-only services look silent. When a challenge hints at RFC 7413 or "knock with data", send the payload *inside* the SYN (either via `MSG_FASTOPEN` or a crafted Scapy packet) and watch for a response. The prefix ("SyN" here) is often the service's auth token since it's visible in the first 3-4 bytes of any sniffed SYN.
 
 **References:** Insomnihack 2019 — Net1, writeups 13988, 13989, 13990
-
----
+````
 
 ### ctf-misc/encodings-advanced.md
 
 > Nguồn: `ctf-misc/encodings-advanced.md`
 
+````markdown
 # CTF Misc - Advanced Encodings & Specialized Formats
 
 ## Table of Contents
@@ -21301,13 +21300,13 @@ print(pt)
 **Key insight:** Binary-grid text files are often "render me" puzzles — one pixel per bit, scale by 4-8x so `zbarimg`/`pyzbar` can find the finder patterns. If the decoded bytes are printable-ish but nonsense (e.g. `9YQ8S_VY^`), try short repeating-key XOR with the word `flag`, the CTF name, or `ctf{` — XORing the first 5 bytes of ciphertext with `pctf{` recovers the key immediately.
 
 **References:** Pragyan CTF 2019 — EXORcism, writeup 13835
-
----
+````
 
 ### ctf-misc/encodings.md
 
 > Nguồn: `ctf-misc/encodings.md`
 
+````markdown
 # CTF Misc - Encodings & Media
 
 ## Table of Contents
@@ -21739,13 +21738,13 @@ file out.bin
 **Key insight:** base64 expands 3 bytes → 4 chars; base65536 expands 2 bytes → 1 *Unicode codepoint*, and since a codepoint renders as 1–4 UTF-8 bytes the encoded stream actually *expands* by ~2× on disk — but visually it looks compact, which is the CTF trick. Any wall of Unicode that lacks variance across the Basic Multilingual Plane and is dominated by CJK, Hangul, or Tibetan is a candidate. Also check base1024 (BMP), base2048, base4096, and base32768 for related tricks.
 
 **References:** IceCTF 2018 — Rabbit Hole, writeup 11421
-
----
+````
 
 ### ctf-misc/games-and-vms-2.md
 
 > Nguồn: `ctf-misc/games-and-vms-2.md`
 
+````markdown
 # CTF Misc - Games, VMs & Constraint Solving (Part 2)
 
 ## Table of Contents
@@ -22000,13 +21999,13 @@ const result = instance.exports.flipCoin();
 ---
 
 See also: [games-and-vms.md](games-and-vms.md) for WASM patching, Roblox reversing, PyInstaller, Z3, K8s RBAC, floating-point exploitation, custom assembly sandbox escape, and multi-phase crypto games.
-
----
+````
 
 ### ctf-misc/games-and-vms-3.md
 
 > Nguồn: `ctf-misc/games-and-vms-3.md`
 
+````markdown
 # CTF Misc - Games, VMs & Constraint Solving (Part 3)
 
 ## Table of Contents
@@ -22697,13 +22696,13 @@ See [games-and-vms-4.md](games-and-vms-4.md) for 2018-era additions (XSLT VM, JS
 See also: [games-and-vms.md](games-and-vms.md) for WASM patching, Roblox place file reversing, PyInstaller extraction, marshal analysis, Python env RCE, Z3 constraint solving, K8s RBAC bypass, floating-point precision exploitation, and custom assembly language sandbox escape.
 
 See also: [games-and-vms-2.md](games-and-vms-2.md) for cookie checkpoint brute-forcing, Flask cookie game state leakage, WebSocket game manipulation, server time-only validation bypass, De Bruijn sequences, Brainfuck instrumentation, and WASM memory manipulation.
-
----
+````
 
 ### ctf-misc/games-and-vms-4.md
 
 > Nguồn: `ctf-misc/games-and-vms-4.md`
 
+````markdown
 # CTF Misc - Games, VMs & Constraint Solving (Part 4)
 
 Additional CTF-era challenges extracted from 2018+ writeups. For earlier parts, see [games-and-vms.md](games-and-vms.md), [games-and-vms-2.md](games-and-vms-2.md), and [games-and-vms-3.md](games-and-vms-3.md).
@@ -22933,13 +22932,13 @@ npiet piet.png                        # prints the flag
 **References:** RITSEC CTF 2018 — writeups 12261, 12268
 
 ---
-
----
+````
 
 ### ctf-misc/games-and-vms.md
 
 > Nguồn: `ctf-misc/games-and-vms.md`
 
+````markdown
 # CTF Misc - Games, VMs & Constraint Solving (Part 1)
 
 ## Table of Contents
@@ -23469,13 +23468,13 @@ Measure `CELL` once by inspecting the first row of the image; then every maze in
 See also: [games-and-vms-2.md](games-and-vms-2.md) for cookie checkpoint brute-forcing, Flask cookie game state leakage, WebSocket game manipulation, server time-only validation bypass, De Bruijn sequences, Brainfuck instrumentation, and WASM memory manipulation.
 
 See also: [games-and-vms-3.md](games-and-vms-3.md) for memfd_create packed binaries, multi-phase crypto games with HMAC commitment-reveal and GF(256) Nim, emulator ROM-switching state preservation, Python marshal code injection, Benford's Law bypass, parallel connection oracle relay, nonogram solver pipelines, 100 prisoners problem, C code jail escape via emoji identifiers, and BuildKit daemon build secret exploitation.
-
----
+````
 
 ### ctf-misc/linux-privesc.md
 
 > Nguồn: `ctf-misc/linux-privesc.md`
 
+````markdown
 # Linux Privilege Escalation and Service Exploitation
 
 Techniques from HackTheBox machine writeups covering sudo abuse, service misconfigurations, database exploitation, and credential extraction.
@@ -23809,13 +23808,13 @@ Run them concurrently in the same shell (`./redirect.sh &` then `./runfile.sh`) 
 **Key insight:** Any two-syscall access pattern on a path (e.g. `stat()` then `open()`, `access()` then `fopen()`) is racey. `access(2)` in particular is explicitly documented as unsafe for security decisions. Defense uses `openat()` + `fstat()` on the returned fd, or `O_NOFOLLOW` to reject symlinks entirely. As an attacker, flip the symlink at ~1M ops/sec with a bash loop or a C program using `renameat2`.
 
 **References:** STEM CTF: Cyber Challenge 2019 — Race You, writeup 13376
-
----
+````
 
 ### ctf-misc/pyjails.md
 
 > Nguồn: `ctf-misc/pyjails.md`
 
+````markdown
 # CTF Misc - Python Jails
 
 ## Table of Contents
@@ -24487,13 +24486,13 @@ klass(["/bin/sh", "-c", "cat flag"])
 **Key insight:** `dir()` is a *data* function: it returns plain strings. A substring blocklist scanning the source never sees the blocked words because they are generated at runtime from attribute table bytes. Any Python jail that filters source text without AST walking is defeated by one layer of indirection — `dir`, `globals().get(key)`, or `vars(obj)[key]`. When auditing a jail, always ask: "does the filter see the literal or the *value*?". If it only sees the literal, `dir()` indexing is the shortest escape.
 
 **References:** InCTF 2018 — The Most Secure File Uploader, writeup 11528
-
----
+````
 
 ### ctf-misc/rf-sdr.md
 
 > Nguồn: `ctf-misc/rf-sdr.md`
 
+````markdown
 # CTF Misc - RF / SDR / IQ Signal Processing
 
 Techniques for Software-Defined Radio (SDR) signal processing using In-phase/Quadrature (IQ) data.
@@ -24585,8 +24584,7 @@ timing_error = (Re(y[n]-y[n-1]) * Re(d[n-1]) - Re(d[n]-d[n-1]) * Re(y[n-1]))
 - Data payload (nibble pairs for QAM-16: high nibble first, low nibble)
 - End delimiter (same as start, e.g., 0)
 - The idle pattern itself may contain the delimiter value - distinguish by context (is it part of the 16-symbol repeating pattern?)
-
----
+````
 
 ## ctf-osint
 
@@ -24594,6 +24592,7 @@ timing_error = (Re(y[n]-y[n-1]) * Re(d[n-1]) - Re(d[n]-d[n-1]) * Re(y[n-1]))
 
 > Nguồn: `ctf-osint/SKILL.md`
 
+````markdown
 ---
 name: ctf-osint
 description: Provides open source intelligence techniques for CTF challenges. Use when gathering information from public sources, social media, geolocation, DNS records, username enumeration, reverse image search, Google dorking, Wayback Machine, Tor relays, FEC filings, or identifying unknown data like hashes and coordinates.
@@ -24786,13 +24785,13 @@ Lookup usernames across gaming platforms (Steam, Xbox, PSN, MMOs) for character 
 - **VirusTotal** - File/URL reputation
 - **WHOIS** - Domain registration
 - **Wayback Machine** - Historical snapshots
-
----
+````
 
 ### ctf-osint/geolocation-and-media.md
 
 > Nguồn: `ctf-osint/geolocation-and-media.md`
 
+````markdown
 # Geolocation and Media Analysis
 
 ## Table of Contents
@@ -25257,13 +25256,13 @@ print(flag)
 **When to recognize:** Challenge provides multiple images with a musical or thematic thread. Each image requires individual geolocation. The flag isn't at any single location — it's encoded across all of them.
 
 **References:** BSidesSF 2026 "strike-a-coord"
-
----
+````
 
 ### ctf-osint/social-media.md
 
 > Nguồn: `ctf-osint/social-media.md`
 
+````markdown
 # Social Media OSINT
 
 ## Table of Contents
@@ -25576,13 +25575,13 @@ curl -H "Authorization: $TOKEN" "https://discord.com/api/v10/guilds/GUILD_ID/mes
 ```
 
 **Animated emoji:** Download GIF, extract frames -- hidden data in brief frames invisible at normal speed.
-
----
+````
 
 ### ctf-osint/web-and-dns.md
 
 > Nguồn: `ctf-osint/web-and-dns.md`
 
+````markdown
 # Web and DNS OSINT
 
 ## Table of Contents
@@ -25924,8 +25923,7 @@ diff glyph_out/font.glyf/zero.ttx reference/zero.ttx
 - **VirusTotal** - File/URL reputation
 - **WHOIS** - Domain registration
 - **Wayback Machine** - Historical snapshots
-
----
+````
 
 ## ctf-pwn
 
@@ -25933,6 +25931,7 @@ diff glyph_out/font.glyf/zero.ttx reference/zero.ttx
 
 > Nguồn: `ctf-pwn/SKILL.md`
 
+````markdown
 ---
 name: ctf-pwn
 description: Provides binary exploitation techniques for CTF challenges. Use when you already have a vulnerable native target or service and need to turn memory corruption or low-level primitives into code execution or privilege escalation, such as buffer overflows, format strings, heap bugs, ROP, ret2libc, shellcode, kernel exploitation, seccomp bypass, sandbox escape, or Windows/Linux exploit chains. Do not use it when the main blocker is understanding what the binary does; use reverse engineering first. Do not use it for pure web bugs, disk or packet forensics, or standalone crypto/math challenges.
@@ -26143,13 +26142,13 @@ Use [field-notes.md](field-notes.md) once you have confirmed the challenge is tr
 - Sandbox and hybrid notes: pyjail crossover, busybox escapes, custom VMs, shell tricks, path sanitizers
 - Kernel and Windows notes: kernel playbooks, SEH, CFG bypass, privilege escalation
 - Historical case notes: older but still reusable CTF exploit patterns
-
----
+````
 
 ### ctf-pwn/advanced-exploits-2.md
 
 > Nguồn: `ctf-pwn/advanced-exploits-2.md`
 
+````markdown
 # CTF Pwn - Advanced Exploit Techniques (Part 2)
 
 ## Table of Contents
@@ -26729,13 +26728,13 @@ dl_fini = ld_base + e_entry + lea_offset + 7 + rip_offset
 **When to recognize:** Challenge provides an arbitrary read primitive and you need code execution via exit handlers. Also applies to any glibc structure using PTR_MANGLE (TLS destructors, `__exit_funcs`, `longjmp` buffers). The same XOR+ROT17 scheme protects all of them with the same per-thread secret.
 
 **References:** 0x00CTF 2017
-
----
+````
 
 ### ctf-pwn/advanced-exploits-3.md
 
 > Nguồn: `ctf-pwn/advanced-exploits-3.md`
 
+````markdown
 # CTF Pwn - Advanced Exploit Techniques (Part 3)
 
 ## Table of Contents
@@ -27334,13 +27333,13 @@ payload = b"\xd6\x87" * 68 + b"$0;".ljust(8, b" ") + p32(0x400890)
 See [advanced-exploits.md](advanced-exploits.md) for VM signed comparison, BF JIT shellcode, type confusion, off-by-one index corruption, DNS overflow, ASAN shadow memory, format string with encoding constraints, custom canary preservation, signed integer bypass, CSV injection, MD5 preimage gadgets, VM GC UAF slab reuse, path traversal sanitizer bypass, and FSOP + seccomp bypass.
 
 See [advanced-exploits-2.md](advanced-exploits-2.md) for bytecode validator bypass, io_uring UAF with SQE injection, integer truncation bypass, GC null-reference cascading corruption, leakless libc via multi-fgets, signed/unsigned char underflow with TLS destructor hijack, custom shadow stack bypass, and signed int overflow with XSS-to-binary pwn bridge.
-
----
+````
 
 ### ctf-pwn/advanced-exploits-4.md
 
 > Nguồn: `ctf-pwn/advanced-exploits-4.md`
 
+````markdown
 # CTF Pwn - Advanced Exploit Techniques (Part 4)
 
 Windows exploitation, ARM shellcode, Forth interpreter exploitation, and GF(2) Gaussian elimination for heap corruption.
@@ -27931,13 +27930,13 @@ p.send(array_lookup(0x6c, rop))                   # rdx=0x6c -> points at pivot 
 **Key insight:** Every "permission check" that inspects an entry of a dispatch table (`table[i] != NULL`) is useless unless bounds are enforced *before* the read. When the read has the shape `mov rax, [base + rdx*8 + C]`, any aligned 8-byte qword in the binary can be reached as a function pointer without needing to overflow or corrupt anything. Scan the binary for useful function-pointer-shaped qwords within ±0x1000 of `base`; stack pivots that reach a large message buffer produce a full ROP without further bugs, since the pivot lands RSP exactly on attacker data.
 
 **References:** TAMUctf 2019 — pwn6, writeup 13479
-
----
+````
 
 ### ctf-pwn/advanced-exploits-5.md
 
 > Nguồn: `ctf-pwn/advanced-exploits-5.md`
 
+````markdown
 # CTF Pwn - Advanced Exploit Techniques (Part 5)
 
 Data-interpretation exploitation — cases where the vulnerable program reinterprets attacker-controlled data (bytecode, floats, hash values) in ways that bypass bounds checks or stack protection. For earlier advanced exploits, see [advanced-exploits.md](advanced-exploits.md), [advanced-exploits-2.md](advanced-exploits-2.md), [advanced-exploits-3.md](advanced-exploits-3.md), and [advanced-exploits-4.md](advanced-exploits-4.md).
@@ -28057,13 +28056,13 @@ for i in range(1 << 32):
 **Key insight:** The attack surface is not the bloom filter itself but the two-line composition `abs() % size`. `abs(INT_MIN)` returns `INT_MIN` (undefined behaviour but consistent on x86-64 glibc), so the modulo preserves the sign and indexes backwards through the array. Any adjacent struct in BSS with a function pointer near offset `-2` becomes a write-what-where. Mitigate with `(unsigned)hash % size` or `hash & (size-1)` for power-of-two sizes.
 
 **References:** DragonCTF Teaser 2018 — Fast Storage, writeup 11460
-
----
+````
 
 ### ctf-pwn/advanced-exploits.md
 
 > Nguồn: `ctf-pwn/advanced-exploits.md`
 
+````markdown
 # CTF Pwn - Advanced Exploit Techniques
 
 ## Table of Contents
@@ -28837,13 +28836,13 @@ See [advanced-exploits-2.md](advanced-exploits-2.md) for bytecode validator bypa
 See [advanced-exploits-3.md](advanced-exploits-3.md) for stack variable overlap, 1-byte overflow via 8-bit loop counter, game AI arithmetic mean OOB read, arbitrary read/write GOT overwrite, stack leak via __environ + memcpy overflow, JIT sandbox uint16 jump truncation, DNS compression pointer overflow, and ELF signing bypass via program header manipulation.
 
 See [advanced-exploits-5.md](advanced-exploits-5.md) for data-interpretation exploitation (Chip-8 emulator OOB ret2libc, double-precision float quicksort canary repositioning, bloom filter abs(INT_MIN) negative index OOB).
-
----
+````
 
 ### ctf-pwn/advanced.md
 
 > Nguồn: `ctf-pwn/advanced.md`
 
+````markdown
 # CTF Pwn - Advanced Techniques
 
 ## Table of Contents
@@ -29170,13 +29169,13 @@ io.interactive()
 **Key insight:** 32-bit PIE on many distros emits `ET_DYN` with a stock `mmap_base` of `0x56555000` because `brk_randomization` and ASLR entropy are minimal. If `info proc mappings` shows the same base across multiple runs (in the challenge container or in gdb with `set disable-randomization on`), treat the "random" base as a constant. Always enumerate map bases before assuming a leak is required — the same trick applies to stacks started under `ulimit -s unlimited` (base becomes `0x7fff_f000` deterministically).
 
 **References:** TAMUctf 2019 — pwn2, writeup 13423
-
----
+````
 
 ### ctf-pwn/field-notes.md
 
 > Nguồn: `ctf-pwn/field-notes.md`
 
+````markdown
 # Pwn Field Notes
 
 Detailed pwn notes that support [`SKILL.md`](SKILL.md). Read this file after confirming the challenge really needs exploitation.
@@ -29422,13 +29421,13 @@ Over-unmap via mmap(small)/munmap(large) destroys adjacent mappings. Thread stac
 ## Useful Commands
 
 `checksec`, `one_gadget`, `ropper`, `ROPgadget`, `seccomp-tools dump`, `strings libc | grep GLIBC`. See [rop-advanced.md](rop-advanced.md) for full command list and pwntools template.
-
----
+````
 
 ### ctf-pwn/format-string.md
 
 > Nguồn: `ctf-pwn/format-string.md`
 
+````markdown
 # CTF Pwn - Format String Exploitation
 
 ## Table of Contents
@@ -30124,13 +30123,13 @@ fmtstr = b"%9x%11$n" + b"\x20\x20\x60\x00\x00\x00\x00\x00"
 **Key insight:** Format-string null-byte restrictions only bite when the address precedes the format directives. Put the directives first so `printf` parses them before touching the address, then let `%$n` reference the trailing address slot.
 
 **References:** FireShell CTF 2019 — casino, writeup 12916
-
----
+````
 
 ### ctf-pwn/heap-fsop.md
 
 > Nguồn: `ctf-pwn/heap-fsop.md`
 
+````markdown
 # CTF Pwn - Heap FILE Structure Attacks
 
 FILE-structure (_IO_FILE) exploitation for libc 2.23-2.27+: fastbin→stdout vtable hijack, _IO_buf_base null byte overwrites, glibc 2.24+ vtable validation bypass, unsorted-bin attacks on FILE fields, and menu-driven UAF / refcount bugs that land through these FILE primitives. For classical heap attacks (House of *, unlink, tcache, musl), see [heap-techniques.md](heap-techniques.md).
@@ -30410,13 +30409,13 @@ struct Book {
 **Key insight:** Any counter that guards lifetime must be wide enough to exceed the number of handles the program can create in one session. `uint8_t` refcounts are always a red flag — verify that the `addref` path either saturates (stays at 255) or uses a wider type. The exploit only needs 256 `addref` calls and one extra `release`, so even heavily rate-limited handle APIs remain reachable.
 
 **References:** WhiteHat Grand Prix 2018 — writeup 10809
-
----
+````
 
 ### ctf-pwn/heap-techniques-2.md
 
 > Nguồn: `ctf-pwn/heap-techniques-2.md`
 
+````markdown
 # Heap Exploitation Techniques (Part 2)
 
 Continuation of [heap-techniques.md](heap-techniques.md). Part 2 collects CTF-specific UAF, tcache, and custom-allocator variants drawn from individual writeups.
@@ -30750,13 +30749,13 @@ payload += p32(0)                    # next chunk's size field (prev_in_use = 0)
 **Key insight:** Custom allocators almost never implement glibc's `fd->bk == chunk && bk->fd == chunk` safe-unlink check introduced in 2004. The classic `write-what-where` via `unlink(chunk)` applies verbatim — target GOT entries that will be called soon (printf, free, puts) and bake a short `jmp +8` over the 8-byte write slot into the shellcode. Validate the faked `size` field of the sentinel chunk so the allocator still consolidates instead of aborting.
 
 **References:** DEF CON CTF Qualifier 2014 — heap, writeup 13953
-
----
+````
 
 ### ctf-pwn/heap-techniques.md
 
 > Nguồn: `ctf-pwn/heap-techniques.md`
 
+````markdown
 # CTF Pwn - Heap Techniques
 
 ## Table of Contents
@@ -31270,13 +31269,13 @@ add_memo(size, p64(environ_addr))  # write &environ into note slot
 **Key insight:** Standard unsafe unlink gives a single write primitive. This variant extends it to full arbitrary read/write by weaponizing the top chunk consolidation: any subsequent `malloc` returns BSS-overlapping memory, turning one write into unlimited controlled allocations within the global data segment.
 
 For CTF-specific UAF, tcache, and custom-allocator writeup variants, continue in [heap-techniques-2.md](heap-techniques-2.md).
-
----
+````
 
 ### ctf-pwn/kernel-bypass.md
 
 > Nguồn: `ctf-pwn/kernel-bypass.md`
 
+````markdown
 # CTF Pwn - Kernel Protection Bypass
 
 ## Table of Contents
@@ -31698,13 +31697,13 @@ upx --best exploit
 ```
 
 **Common pitfall:** If the exploit uses `setxattr()` with a file path, ensure the file exists in the remote environment. Local path (`/tmp/exploit`) may differ from remote path (`/home/user/exploit`).
-
----
+````
 
 ### ctf-pwn/kernel-techniques.md
 
 > Nguồn: `ctf-pwn/kernel-techniques.md`
 
+````markdown
 # CTF Pwn - Kernel Exploitation Techniques
 
 ## Table of Contents
@@ -32071,13 +32070,13 @@ binary   = binary.ljust(0x7000090 & 0xfff, b'\x00') + asm(shellcraft.sh())
 **Key insight:** Custom `binfmt_misc`-style loaders are a fertile target because they parse attacker-supplied headers *before* `install_exec_creds` commits the per-exec credential struct. Any primitive that touches `bprm` in that window (OOB read to leak `bprm->cred`, arbitrary `_clear_user` to zero cred fields, `vm_mmap` with controlled flags/prot for kernel-aided RWX) composes into privesc without needing a traditional kernel memory-corruption chain. Always audit `load_*_binary` functions in custom modules for (a) bounds on header offsets and counts, (b) `access_ok`/range checks on `addr`/`length` arguments passed to `_clear_user`/`copy_to_user`, and (c) side-channel info leaks via `printk`.
 
 **References:** CONFidence CTF 2019 Teaser — p4fmt, writeup 13992
-
----
+````
 
 ### ctf-pwn/kernel.md
 
 > Nguồn: `ctf-pwn/kernel.md`
 
+````markdown
 # CTF Pwn - Linux Kernel Exploitation
 
 ## Table of Contents
@@ -32714,13 +32713,13 @@ After leaking the cred struct, rewrite `uid/gid/euid/egid = 0` in place and call
 **Key insight:** Missing `set_fs(USER_DS)` restoration is a single-line bug that gives unbounded copy_from/to_user with kernel addresses. Wrap dangerous reads through a pipe so the kernel copy loop never touches forbidden MMU regions directly.
 
 **References:** Insomnihack teaser 2019 — 1118daysober, writeup 12903
-
----
+````
 
 ### ctf-pwn/overflow-basics.md
 
 > Nguồn: `ctf-pwn/overflow-basics.md`
 
+````markdown
 # CTF Pwn - Overflow Basics
 
 ## Table of Contents
@@ -33332,13 +33331,13 @@ target.sendline(str(0))
 **Key insight:** `scanf("%d", ...)` treats a lone `-` as a format mismatch — it returns early without writing to the destination and, crucially, without consuming the `-` byte; the next scanf call will then fail identically. Using this skip primitive you can surgically choose which iterations of a "fixed-count" write loop actually land on the stack, letting you hop over canary/RBP slots to reach the return address. Combine with a signed/unsigned char comparison bug to get a loop count larger than the declared max.
 
 **References:** nullcon HackIM 2019 — babypwn, writeup 13211
-
----
+````
 
 ### ctf-pwn/rop-advanced.md
 
 > Nguồn: `ctf-pwn/rop-advanced.md`
 
+````markdown
 # CTF Pwn - Advanced ROP Techniques
 
 ## Table of Contents
@@ -34064,13 +34063,13 @@ ropper -f binary               # Find ROP gadgets
 ROPgadget --binary binary      # Alternative gadget finder
 seccomp-tools dump ./binary    # Check seccomp rules
 ```
-
----
+````
 
 ### ctf-pwn/rop-and-shellcode.md
 
 > Nguồn: `ctf-pwn/rop-and-shellcode.md`
 
+````markdown
 # CTF Pwn - ROP Chains and Shellcode
 
 ## Table of Contents
@@ -34730,13 +34729,13 @@ payload = bootstrap + alphanum_encoder(sc, 3)
 **Key insight:** Alphanumeric-only decoders typically need `rax` to point at (or a fixed offset before) the payload. If the harness zeroes `rax`, seed it from *any* volatile register that already holds a valid address — `r12` is routinely `_start` on Linux, and `push r12; pop rax` happens to be `AT X` (0x41 0x54 0x58), which the encoder's input filter treats as benign. Adjust the encoder's `padding_len` argument to exactly match the prepended byte count so the decode math still lines up.
 
 **References:** nullcon HackIM 2019 — easy-shell, writeups 13048, 13203
-
----
+````
 
 ### ctf-pwn/sandbox-escape.md
 
 > Nguồn: `ctf-pwn/sandbox-escape.md`
 
+````markdown
 # CTF Pwn - Sandbox Escape and Restricted Environments
 
 ## Table of Contents
@@ -35050,8 +35049,7 @@ Chain with a `push` that stores shellcode bytes at the new pointer, then redirec
 **Key insight:** Any VM primitive that rewrites its own state pointer is an immediate arbitrary-write primitive. Always probe VM opcodes for boundary conditions where the stack pointer itself is addressable.
 
 **References:** HITCON CTF 2018 — Abyss I, writeups 11918-11919
-
----
+````
 
 ## ctf-reverse
 
@@ -35059,6 +35057,7 @@ Chain with a `push` that stores shellcode bytes at the new pointer, then redirec
 
 > Nguồn: `ctf-reverse/SKILL.md`
 
+````markdown
 ---
 name: ctf-reverse
 description: Provides reverse engineering techniques for CTF challenges. Use when the main job is to understand how a compiled, obfuscated, packed, or virtualized target works before exploiting or solving it, including binaries, APKs, WASM, firmware, custom VMs, bytecode, game clients, malware-like loaders, and anti-debug or anti-analysis logic. Do not use it when the vulnerability is already understood and the remaining task is exploitation; use pwn instead. Do not use it for pure web workflows, log or disk forensics, or standalone crypto problems unless reversing the implementation is the real blocker.
@@ -35226,13 +35225,13 @@ Use [field-notes.md](field-notes.md) after the first round of triage when you kn
 - Technique notes: anti-debug bypass, VM analysis, x86-64 gotchas, iterative solvers, Unicorn, timing side channels
 - Platform notes: Godot, Roblox, macOS/iOS, embedded firmware, kernel drivers, game engines, Swift, Kotlin, Go, Rust, D
 - Case notes: modern CTF-specific reversing patterns and older classic challenge patterns
-
----
+````
 
 ### ctf-reverse/anti-analysis-ctf.md
 
 > Nguồn: `ctf-reverse/anti-analysis-ctf.md`
 
+````markdown
 # CTF Reverse - Anti-Analysis CTF Writeups
 
 CTF-specific anti-analysis techniques: signal-handler tricks, instruction-trace inversion, call-less function chaining, parent-patched child binary dumping. For the core anti-analysis taxonomy (Linux/Windows anti-debug, anti-VM, anti-DBI, code integrity, anti-disassembly), see [anti-analysis.md](anti-analysis.md).
@@ -35437,13 +35436,13 @@ $ de4dot out.exe        # symbol cleanup
 **Key insight:** ConfuserEx protects on-disk code but not the runtime representation. Any time a .NET protector ships a compiled constructor that performs decryption, the dumped post-constructor module is the cleartext binary. Chain with de4dot to undo the follow-up symbol obfuscation.
 
 **References:** Kaspersky Industrial CTF 2018 — glardomos, writeup 12325
-
----
+````
 
 ### ctf-reverse/anti-analysis.md
 
 > Nguồn: `ctf-reverse/anti-analysis.md`
 
+````markdown
 # CTF Reverse - Anti-Analysis Techniques & Bypasses
 
 Comprehensive reference for anti-debugging, anti-VM, anti-DBI, and integrity-check techniques encountered in CTF challenges, with practical bypasses.
@@ -36137,13 +36136,13 @@ gdb ./challenge
 **Key insight:** Signal handlers that `mprotect` + mutate code are cross-delimited in a way decompilers cannot model. `SIGFPE` is particularly effective because it is rarely raised during normal execution, so the mutation stays dormant until the attacker hits the crafted input. When you see `sys_sigaction(SIGFPE,...)` or `signal(SIGFPE,...)` in a binary that also calls `mprotect`, trace the handler with `strace -e signal=SIGFPE` and annotate the mutated region by diffing the `.text` pages before and after the first FPE.
 
 **References:** Hack.lu CTF 2018 — Cheat Console, writeup 11868
-
----
+````
 
 ### ctf-reverse/field-notes.md
 
 > Nguồn: `ctf-reverse/field-notes.md`
 
+````markdown
 # Reverse Engineering Field Notes
 
 Detailed quick notes that support [`SKILL.md`](SKILL.md). Read this file after triage, not before.
@@ -36520,13 +36519,13 @@ Native JNI library patches Dalvik bytecode in memory via `/proc/self/maps` + `mp
 
 ### Fork + Pipe + Dead Branch Anti-Analysis
 Fork/pipe IPC where parent writes data and exits, child reads and continues. Real validation hidden in a dead branch (always-false comparison). `strace` reveals the fork/pipe pattern; patch the comparison constant to reach hidden code. See [patterns-ctf-3.md](patterns-ctf-3.md#fork--pipe--dead-branch-anti-analysis-rctf-2017).
-
----
+````
 
 ### ctf-reverse/languages-compiled.md
 
 > Nguồn: `ctf-reverse/languages-compiled.md`
 
+````markdown
 # CTF Reverse - Compiled Language Reversing (Go, Rust)
 
 ## Table of Contents
@@ -37193,13 +37192,13 @@ Run `./target_bin`; the printed calls reveal the algorithm without decompiling t
 **Key insight:** Any runtime that still resolves module names through `sys.path` (Nuitka, PyInstaller with `--onefile`, Py2Exe with `--bundle_files=1` off, frozen CPython) can be shimmed at import time with CWD stubs. Grep `strings` output for module names to pick good hook targets.
 
 **References:** X-MAS CTF 2018 — A Christmas Carol, writeup 12667
-
----
+````
 
 ### ctf-reverse/languages-platforms.md
 
 > Nguồn: `ctf-reverse/languages-platforms.md`
 
+````markdown
 # CTF Reverse - Platform & Framework-Specific Techniques
 
 ## Table of Contents
@@ -37792,13 +37791,13 @@ adb logcat | grep -i flag
 **Key insight:** `LocalBroadcastManager`-registered receivers cannot be invoked from `adb`, so the obvious "send the intent yourself" trick fails and static deobfuscation of Paranoid strings is painful. Smali patching sidesteps both: move the deobfuscation call to a path that runs automatically and redirect its output to `Log.d()`, turning a local-only receiver into a logcat-visible primitive.
 
 **References:** TAMUctf 2019 — Local News, writeup 13565
-
----
+````
 
 ### ctf-reverse/languages.md
 
 > Nguồn: `ctf-reverse/languages.md`
 
+````markdown
 # CTF Reverse - Language-Specific Techniques
 
 ## Table of Contents
@@ -38352,13 +38351,13 @@ print(sum(tape))   # Busy-beaver score → hashed for the flag
 **Key insight:** `Makefile` is Turing-complete via recursive `$(eval)` and string substitution, so any CTF that ships "just a Makefile" can be hiding a full interpreter. The fastest reverse path is to extract the transition table as text, decode each word, and either simulate locally or search public busy-beaver databases — most hand-rolled BB machines match published ones within the first 6 states. Use `make -n` to see expanded commands without executing, and `make -d` to watch the recursive eval graph.
 
 **References:** Hackover CTF 2018 — Flagmaker, writeup 11503
-
----
+````
 
 ### ctf-reverse/patterns-ctf-2.md
 
 > Nguồn: `ctf-reverse/patterns-ctf-2.md`
 
+````markdown
 # CTF Reverse - Competition-Specific Patterns (Part 2)
 
 ## Table of Contents
@@ -38756,13 +38755,13 @@ flag = bytes(v ^ md5_key[i % 16] for i, v in enumerate(embedded_values))
 **Key insight:** ROP chain obfuscation ("ROPfuscation") hides algorithms in chains of return-oriented gadgets. The chain looks incomprehensible as raw addresses but becomes analyzable when you: (a) dump each gadget's disassembly, (b) filter repetitions and skip regions, (c) annotate register effects. The chain is functionally equivalent to normal code — it just uses `ret` instead of sequential execution. Large chains (100K+ gadgets) often contain unrolled loops that compress to ~1000 lines of pseudocode.
 
 See also: [patterns-ctf.md](patterns-ctf.md) for Part 1 (hidden emulator opcodes, SPN static extraction, image XOR smoothness, byte-at-a-time cipher, mathematical convergence bitmap, Windows PE XOR bitmap OCR, two-stage RC4+VM loaders, GBA ROM meet-in-the-middle, Sprague-Grundy game theory, kernel module maze solving, multi-threaded VM channels). [patterns-ctf-3.md](patterns-ctf-3.md) for Part 3 (Z3 single-line Python circuit, sliding window popcount, keyboard LED Morse code, C++ destructor-hidden validation, syscall side-effect memory corruption, MFC dialog event handlers, VM sequential key-chain brute-force, Burrows-Wheeler transform inversion, OpenType font ligature exploitation, GLSL shader VM with self-modifying code, instruction counter as cryptographic state).
-
----
+````
 
 ### ctf-reverse/patterns-ctf-3.md
 
 > Nguồn: `ctf-reverse/patterns-ctf-3.md`
 
+````markdown
 # CTF Reverse - Competition-Specific Patterns (Part 3)
 
 ## Table of Contents
@@ -39560,13 +39559,13 @@ CRT (via `sympy.ntheory.modular.crt` or a manual `mul_inv` routine) plus `matrix
 ---
 
 See also: [patterns-ctf.md](patterns-ctf.md) for Part 1, [patterns-ctf-2.md](patterns-ctf-2.md) for Part 2 (multi-layer self-decrypting binary, embedded ZIP+XOR license, stack string deobfuscation, prefix hash brute-force, CVP/LLL lattice, decision tree obfuscation, GF(2^8) Gaussian elimination).
-
----
+````
 
 ### ctf-reverse/patterns-ctf.md
 
 > Nguồn: `ctf-reverse/patterns-ctf.md`
 
+````markdown
 # CTF Reverse - Competition-Specific Patterns (Part 1)
 
 ## Table of Contents
@@ -40237,13 +40236,13 @@ Dump the per-group moduli (`[0x88ca6b51, 0x8405b751, 0xbfa08c87, 0x82013f23, 0x4
 ---
 
 See also: [patterns-ctf-2.md](patterns-ctf-2.md) for Part 2 (multi-layer self-decrypting binary, embedded ZIP+XOR license, stack string deobfuscation, prefix hash brute-force, CVP/LLL lattice, decision tree obfuscation, GF(2^8) Gaussian elimination), [patterns-ctf-3.md](patterns-ctf-3.md) for Part 3 (Z3 boolean circuit, sliding window popcount, keyboard LED Morse code, C++ destructor-hidden validation, VM sequential key-chain brute-force, BWT inversion, OpenType font ligature exploitation, GLSL shader VM with self-modifying code).
-
----
+````
 
 ### ctf-reverse/patterns-runtime.md
 
 > Nguồn: `ctf-reverse/patterns-runtime.md`
 
+````markdown
 # CTF Reverse - Runtime Patching and Oracle Techniques
 
 Malware unpacking, multi-stage shellcode, timing/signal side channels, and CTF-specific oracle attacks that rely on runtime state rather than static pattern matching.
@@ -40518,13 +40517,13 @@ Walk the recursion until `half == 1` (or until a "leaf" bit is seen) and paint t
 **Key insight:** Proprietary image/compression formats in CTF challenges are almost always quadtrees, LZ77 variants, or Huffman streams. Look for recursive structures with a short command byte followed by either more commands or fixed-width leaf data. Prototype the parser by printing the recursion depth and offset for each call — mismatched depth is the first signal that the bit order or leaf size is wrong.
 
 **References:** Google CTF Quals 2018 — writeup 10335
-
----
+````
 
 ### ctf-reverse/patterns.md
 
 > Nguồn: `ctf-reverse/patterns.md`
 
+````markdown
 # CTF Reverse - Patterns & Techniques
 
 ## Table of Contents
@@ -41097,13 +41096,13 @@ int sigaction(int signum, const struct sigaction *act, ...) {
 ```
 
 See [patterns-runtime.md](patterns-runtime.md) for malware patching, multi-stage shellcode, timing/signal oracles, and CTF writeup techniques.
-
----
+````
 
 ### ctf-reverse/platforms-hardware.md
 
 > Nguồn: `ctf-reverse/platforms-hardware.md`
 
+````markdown
 # CTF Reverse - Hardware and Advanced Architecture Reversing
 
 HD44780 LCD GPIO reconstruction, RISC-V advanced extensions and debugging, ARM64/AArch64 reversing and exploitation.
@@ -41491,13 +41490,13 @@ diff = intended ^ actual    # 0x08000 → bit 15
 **Key insight:** XOR of two ROM constants is trivially a linear operation: any single-bit flip in either operand XORs the corresponding bit into the result. Walk the Hamming distance between computed and observed addresses and you get a bounded list of candidate patch sites — usually one or two. Pairs of addresses in firmware are suspicious: they frequently compose via XOR, ADD, or SUB and every arithmetic relation is a candidate for a targeted single-bit flip attack. Also applies to rowhammer: the sensitive bit is the *differential* between two constants, not the constants themselves.
 
 **References:** Hack.lu CTF 2018 — 1-bit-missile, writeups 11862, 11865
-
----
+````
 
 ### ctf-reverse/platforms.md
 
 > Nguồn: `ctf-reverse/platforms.md`
 
+````markdown
 # CTF Reverse - Platform-Specific Reversing
 
 macOS/iOS, embedded/IoT firmware, kernel driver, automotive, and game engine reverse engineering.
@@ -42162,13 +42161,13 @@ grep -r "https://" out/  # find hardcoded endpoints
 **Key insight:** IL2CPP looks opaque but the metadata file carries every type name, method name, and string literal. That is enough to reverse CTF-level logic without ever touching native disassembly.
 
 **References:** SECCON 2018 — shooter, writeup 12001
-
----
+````
 
 ### ctf-reverse/tools-advanced-2.md
 
 > Nguồn: `ctf-reverse/tools-advanced-2.md`
 
+````markdown
 # Advanced Reverse Engineering Tools (Part 2)
 
 Advanced GDB scripting, Ghidra automation, patching frameworks, and CTF-specific GDB-driven techniques. Continuation of [tools-advanced.md](tools-advanced.md).
@@ -42590,13 +42589,13 @@ while peda.getreg("rip") < 0x555555554000 + 0xD827F:
 **Key insight:** Any validator of the form `f_i(bit_i) == const_i` is a black-box oracle — you do not need to understand `f_i`. PEDA's `current_inst()` + `si`/`ni` give a 30-line Python scraper that harvests all bits in one run; parsing the preceding `sar imm` / `add imm` instructions recovers `(byte_offset, bit_index)` without disassembling the validator's arithmetic.
 
 **References:** CONFidence CTF 2019 Teaser — Elementary, writeup 13927
-
----
+````
 
 ### ctf-reverse/tools-advanced.md
 
 > Nguồn: `ctf-reverse/tools-advanced.md`
 
+````markdown
 # CTF Reverse - Advanced Tools & Deobfuscation
 
 Advanced tooling for commercial packers/protectors, binary diffing, deobfuscation frameworks, emulation, and symbolic execution beyond angr.
@@ -43004,13 +43003,13 @@ For complex custom VMs, transpile the VM bytecode to LLVM IR and use LLVM's opti
 ```
 
 **Key insight:** LLVM's optimization passes (inlining, constant folding, dead code elimination) dramatically simplify lifted VM bytecode. A custom VM with 26 registers and 3 opcodes that produces 1300 lines of IL reduces to ~150 lines after `-O3`, revealing the underlying algorithm (e.g., Collatz sequence computation).
-
----
+````
 
 ### ctf-reverse/tools-dynamic.md
 
 > Nguồn: `ctf-reverse/tools-dynamic.md`
 
+````markdown
 # CTF Reverse - Dynamic Analysis Tools
 
 ## Table of Contents
@@ -43689,13 +43688,13 @@ Chain the per-byte recovery over the full 16-byte target and reconstruct the cor
 **Key insight:** When `strcmp` is the last gate, the obfuscator is irrelevant — its output still has to equal a fixed string at a known call site. GDB's `commands` block turns the breakpoint into an automatic oracle: one run with `AAAA...` leaks the keystream, and a second pass with any target string gives the valid input. Works for any keyed transform that is effectively a permutation of the input under a fixed key.
 
 **References:** TAMUctf 2019 — Obfuscaxor, writeup 13574
-
----
+````
 
 ### ctf-reverse/tools-emulation.md
 
 > Nguồn: `ctf-reverse/tools-emulation.md`
 
+````markdown
 # CTF Reverse - Emulation and Side-Channel Tooling
 
 Emulation frameworks (Qiling, Triton) and side-channel measurement tools (Intel Pin, LD_PRELOAD hooks) for CTF challenges where anti-debug, self-modifying code, or cross-architecture targets make plain GDB/Frida impractical.
@@ -44015,13 +44014,13 @@ int memcmp(const char *s1, const char *s2, int n) {
 **Detection:** Binary uses `memcmp` or `strcmp` for flag validation (visible in `ltrace` output or import table). The comparison function is called with user input and a computed/stored expected value.
 
 **References:** Blaze CTF 2018
-
----
+````
 
 ### ctf-reverse/tools.md
 
 > Nguồn: `ctf-reverse/tools.md`
 
+````markdown
 # CTF Reverse - Tools Reference
 
 ## Table of Contents
@@ -44595,8 +44594,7 @@ boolector -m --output-format=smt2 hash.smt2
 **Key insight:** Z3 is the default, but for bit-level hash puzzles boolector is often 10-100× faster. Emit SMT2 from IDA/r2 by lifting each basic block into `bvxor`/`bvrol`/`bvadd` and let the solver pick the preimage.
 
 **References:** OverTheWire Advent 2018 — Jackinthebox, writeup 12789
-
----
+````
 
 ## ctf-web
 
@@ -44604,6 +44602,7 @@ boolector -m --output-format=smt2 hash.smt2
 
 > Nguồn: `ctf-web/SKILL.md`
 
+````markdown
 ---
 name: ctf-web
 description: Provides web exploitation techniques for CTF challenges. Use when the target is primarily an HTTP application, API, browser client, template engine, identity flow, or smart-contract frontend/backend surface, including XSS, SQLi, SSTI, SSRF, XXE, JWT, auth bypass, file upload, request smuggling, OAuth/OIDC, SAML, prototype pollution, and similar web bugs. Do not use it for native binary memory corruption, reverse engineering of standalone executables, disk or memory forensics, or pure cryptanalysis unless the web flaw is still the main path to the flag.
@@ -44756,13 +44755,13 @@ Use [field-notes.md](field-notes.md) once you have confirmed the challenge is tr
 - Database: tables named `flag`, `flags`, `secret`, or seeded challenge content
 - HTTP: custom headers, archived responses, hidden routes, admin exports
 - Browser: hidden DOM nodes, `data-*` attributes, inline state objects, source maps
-
----
+````
 
 ### ctf-web/auth-and-access-2.md
 
 > Nguồn: `ctf-web/auth-and-access-2.md`
 
+````markdown
 # CTF Web - Auth & Access Control Attacks (Part 2)
 
 2018-era additions: bucket-collision hash auth bypass, Unicode username homograph collision, SRP A=0/A=N bypass, ArangoDB AQL MERGE privilege escalation. For foundational auth/access techniques see [auth-and-access.md](auth-and-access.md). For JWT attacks see [auth-jwt.md](auth-jwt.md). For OAuth/OIDC/SAML/CI-CD, see [auth-infra.md](auth-infra.md).
@@ -44845,13 +44844,13 @@ password: anything
 **Key insight:** NoSQL databases each have their own injection grammar. AQL's `MERGE` creates a new document inheriting the found record's fields, bypassing any ACL that only checks persistent storage. Always use parameterised bind variables.
 
 **References:** P.W.N. CTF 2018 — H!pster Startup, writeup 12067
-
----
+````
 
 ### ctf-web/auth-and-access.md
 
 > Nguồn: `ctf-web/auth-and-access.md`
 
+````markdown
 # CTF Web - Auth & Access Control Attacks
 
 ## Table of Contents
@@ -45635,13 +45634,13 @@ The first row parses as `username=fearless`, `password=12345`, `admin=true`; the
 ---
 
 See [auth-and-access-2.md](auth-and-access-2.md) for additional 2018-era auth attacks (bucket collision, Unicode homograph, SRP zero, ArangoDB MERGE).
-
----
+````
 
 ### ctf-web/auth-infra.md
 
 > Nguồn: `ctf-web/auth-infra.md`
 
+````markdown
 # CTF Web - OAuth, SAML & Infrastructure Auth Attacks
 
 ## Table of Contents
@@ -45963,13 +45962,13 @@ This padding is part of `new_msg` — the server will verify it as-is.
 **Vulnerable algorithms:** MD5, SHA-1, SHA-224, SHA-256, SHA-384, SHA-512 (all Merkle-Damgård). **Not vulnerable:** HMAC (uses two separate hash passes), SHA-3/Keccak (sponge construction), BLAKE2/3.
 
 **Key insight:** Any Merkle-Damgård hash used as `H(secret || data)` without HMAC construction leaks internal state at the message boundary, enabling arbitrary message extension. Use `hashpumpy` or `hash_extender`. If the secret length is unknown, brute-force it (1-100 is a reasonable range for CTFs) — the valid extension will produce a server-accepted MAC.
-
----
+````
 
 ### ctf-web/auth-jwt.md
 
 > Nguồn: `ctf-web/auth-jwt.md`
 
+````markdown
 # CTF Web - JWT & JWE Token Attacks
 
 ## Table of Contents
@@ -46156,13 +46155,13 @@ print(sess.get("http://target/admin").text)
 **Key insight:** CRC32 is a checksum, not a message authentication code — it is linear, so flipping any bit in the ciphertext and recomputing the CRC yields a still-"valid" cookie. Combined with a length field that tells the parser how many bytes to decode, the attacker can truncate (or extend) the plaintext at any point. Audit cookies that decrypt to a length-prefixed payload and watch for the signature algorithm: if it is `crc32`, `adler32`, `md5`, or anything that is not an HMAC/AEAD, assume forgery.
 
 **References:** DefCamp CTF Qualification 2018 — Get Admin, writeup 11430
-
----
+````
 
 ### ctf-web/client-side-advanced.md
 
 > Nguồn: `ctf-web/client-side-advanced.md`
 
+````markdown
 # CTF Web - Advanced Client-Side Attacks
 
 Unicode bypass, CSS-only exfiltration, behavioral JS frameworks, timing oracles, HMAC bypass, CSP bypasses, and XSSI techniques.
@@ -46902,13 +46901,13 @@ s.get(f'http://target/profile/{user}')
 **Key insight:** CDNs cache by URL path/extension, not response `Content-Type` or `Vary: Cookie`; a `.js` (or `.css`, `.svg`, `.ico`, `.png`) suffix often flips a per-user page into a globally-shared static asset and converts a self-XSS into a wormable stored XSS. Always test whether appending common static extensions yields the *same* authenticated content from an unauthenticated fetch — that is the poisoning primitive. Admin-bot challenges behind CloudFlare are especially vulnerable; once poisoned, the next admin visit executes your payload with their cookies.
 
 **References:** CONFidence CTF 2019 Teaser — Web 50, writeup 13925. Background: [PortSwigger: Practical Web Cache Poisoning](https://portswigger.net/blog/practical-web-cache-poisoning).
-
----
+````
 
 ### ctf-web/client-side.md
 
 > Nguồn: `ctf-web/client-side.md`
 
+````markdown
 # CTF Web - Client-Side Attacks
 
 ## Table of Contents
@@ -47438,13 +47437,13 @@ Exfiltrate by firing two `new Image().src` requests to attacker-controlled endpo
 **Key insight:** jQuery's `$` with a string argument treats anything beginning with `<` as HTML and everything else as a selector. Any sink that lets an attacker put arbitrary text into `$()` becomes both an XSS and a selector-timing oracle.
 
 **References:** hxp CTF 2018 — µblog, writeup 12554
-
----
+````
 
 ### ctf-web/cves.md
 
 > Nguồn: `ctf-web/cves.md`
 
+````markdown
 # CTF Web - CVEs & Browser Vulnerabilities
 
 Specific CVEs and vulnerability patterns. For Node.js CVEs (flatnest, Happy-DOM), see [node-and-prototype.md](node-and-prototype.md). For JWT algorithm confusion, see [auth-and-access.md](auth-and-access.md).
@@ -47812,13 +47811,13 @@ ssh -i rsa.key root@172.30.0.3
 8. **GitLab with SAML SSO** — check version for ruby-saml CVE-2024-45409
 9. **PaperCut NG** — check for `/app?service=page/SetupCompleted` unauthenticated access
 10. **Zabbix trapper port** (10051) — audit log SQLi via `clientip` field
-
----
+````
 
 ### ctf-web/field-notes.md
 
 > Nguồn: `ctf-web/field-notes.md`
 
+````markdown
 # CTF Web Field Notes
 
 Long-form exploit notes that were moved out of `SKILL.md` so the main skill can stay focused on routing and first-pass execution.
@@ -48301,13 +48300,13 @@ Server builds XML from headers without escaping. Inject `</ip><admin>true</admin
 ## Common Flag Locations
 
 Files: `/flag.txt`, `/flag`, `/app/flag.txt`, `/home/*/flag*`. Env: `/proc/self/environ`. DB: `flag`, `flags`, `secret` tables. Headers: `x-flag`, `x-archive-tag`, `x-proof`. DOM: `display:none` elements, `data-*` attributes.
-
----
+````
 
 ### ctf-web/node-and-prototype.md
 
 > Nguồn: `ctf-web/node-and-prototype.md`
 
+````markdown
 # CTF Web - Node.js Prototype Pollution & VM Escape
 
 ## Table of Contents
@@ -48508,13 +48507,13 @@ print(r.text.split("<title>")[1].split("</title>")[0])
 - `flatnest` in `package.json` + endpoints calling `nest()` on user input
 - `happy-dom` or `jsdom` rendering user-controlled HTML
 - Any `vm.runInContext`, `vm.Script` usage
-
----
+````
 
 ### ctf-web/server-side-2.md
 
 > Nguồn: `ctf-web/server-side-2.md`
 
+````markdown
 # CTF Web - XXE, XML Injection, Command Injection, GraphQL
 
 XXE payloads, XML injection, PHP variable-variable tricks, sequential regex bypasses, command injection, and GraphQL exploitation. For core server-side injection (PHP type juggling, file inclusion, SSTI, SSRF), see [server-side.md](server-side.md).
@@ -48852,13 +48851,13 @@ const query = `mutation { doAction(input: "${userInput}") { result } }`;
 ---
 
 *See also: [server-side-exec.md](server-side-exec.md) for code execution attacks (Ruby/Perl/JS/LaTeX/Prolog injection, PHP preg_replace /e, ReDoS, file upload to RCE, PHP deserialization, XPath injection, Thymeleaf SpEL SSTI), and [server-side-exec-2.md](server-side-exec-2.md) for SQLi keyword fragmentation, SQL WHERE bypass, SQL via DNS, bash brace expansion, Common Lisp injection, PHP7 OPcache, PNG/PHP polyglot upload, and more.*
-
----
+````
 
 ### ctf-web/server-side-advanced-2.md
 
 > Nguồn: `ctf-web/server-side-advanced-2.md`
 
+````markdown
 # CTF Web - Advanced Server-Side Techniques (Part 2)
 
 ## Table of Contents
@@ -49418,13 +49417,13 @@ conn.close()
 ```
 
 **Key insight:** A rogue MySQL server can request the connecting client to send any local file via the LOAD DATA LOCAL protocol, regardless of what query the client intended to execute. This works because the MySQL protocol allows the server to respond to any client query with a file transfer request. Look for challenges where you can control the MySQL host a service connects to (SSRF, config injection, DNS rebinding). The client must have `LOAD DATA LOCAL` enabled (default in many MySQL client libraries).
-
----
+````
 
 ### ctf-web/server-side-advanced-3.md
 
 > Nguồn: `ctf-web/server-side-advanced-3.md`
 
+````markdown
 # CTF Web - Advanced Server-Side Techniques (Part 3)
 
 CVE-era and 2018-era advanced server-side techniques (CSAW, 35C3, ASIS, PlaidCTF). For parts 1-2, see [server-side-advanced.md](server-side-advanced.md) and [server-side-advanced-2.md](server-side-advanced-2.md).
@@ -49550,13 +49549,13 @@ Authorization: Basic YmlnYnJvdGhlcjo0UWozcmM0WmhOUUt2N1J6
 **Key insight:** Any SSRF where the client library uses per-request credentials (`requests.auth`, `urllib3 auth_header`, Python `http.client` default credentials) leaks them if the attacker picks the target URL. Strip `Authorization` on redirects and never attach credentials by default.
 
 **References:** ASIS CTF Finals 2018 — Gunshop 2, writeup 12420
-
----
+````
 
 ### ctf-web/server-side-advanced-4.md
 
 > Nguồn: `ctf-web/server-side-advanced-4.md`
 
+````markdown
 # Server-Side Advanced Techniques (Part 4)
 
 ## Table of Contents
@@ -50037,13 +50036,13 @@ for R in $(bzr log --line | awk '{print $1}'); do bzr diff -r$((R-1))..$R; done
 **Key insight:** Exposed `.bzr/` (or `.git/`, `.hg/`, `.svn/`) directories leak full commit history; bzr is particularly friendly because it tolerates partial repos and reports the missing path verbatim, so a wget-in-a-loop solver finishes the job. Always diff revisions, not just `HEAD` — flags, wallet keys, and decryption keys are often *removed* in a later commit but still recoverable. Once the tree is reconstructed you can chain with challenges like STEM CTF "Medium is overrated", where revision N stores a base64 ciphertext and revision M stores the AES-ECB key.
 
 **References:** STEM CTF Cyber Challenge 2019 — My First Blog & Medium is overrated, writeups 13380 and 13379
-
----
+````
 
 ### ctf-web/server-side-advanced.md
 
 > Nguồn: `ctf-web/server-side-advanced.md`
 
+````markdown
 # CTF Web - Advanced Server-Side Techniques
 
 ## Table of Contents
@@ -50422,13 +50421,13 @@ curl 'https://target/public%2f../nginx.conf'
 ---
 
 See [server-side-advanced-4.md](server-side-advanced-4.md) for WeasyPrint SSRF, MongoDB regex injection, Pongo2 SSTI, ZIP PHP webshell, basename() bypass, wget CRLF SMTP, Gopher→MySQL SQLi, React Server Components RCE, AMQP/TLS interception, CairoSVG XXE, and Bazaar repo reconstruction.
-
----
+````
 
 ### ctf-web/server-side-deser.md
 
 > Nguồn: `ctf-web/server-side-deser.md`
 
+````markdown
 # CTF Web - Deserialization & Execution Attacks
 
 For core injection attacks (SQLi, SSTI, SSRF, XXE, command injection), see [server-side.md](server-side.md).
@@ -50872,13 +50871,13 @@ Send the output into the app's load endpoint; pickle instantiates `subprocess.Po
 **References:** TAMUctf 2019 — VeggieTales, writeup 13424
 
 ---
-
----
+````
 
 ### ctf-web/server-side-exec-2.md
 
 > Nguồn: `ctf-web/server-side-exec-2.md`
 
+````markdown
 # CTF Web - Server-Side Code Execution & Access Attacks (Part 2)
 
 ## Table of Contents
@@ -51678,13 +51677,13 @@ nc target 6200
 ---
 
 *See also: [server-side.md](server-side.md) for core injection attacks (SQLi, SSTI, SSRF, XXE, command injection, PHP type juggling, PHP file inclusion).*
-
----
+````
 
 ### ctf-web/server-side-exec.md
 
 > Nguồn: `ctf-web/server-side-exec.md`
 
+````markdown
 # CTF Web - Server-Side Code Execution & Access Attacks
 
 ## Table of Contents
@@ -52142,13 +52141,13 @@ Iterate the comparison character to binary-search each byte of `FLAG` without ev
 ---
 
 *See also: [server-side.md](server-side.md) for core injection attacks (SQLi, SSTI, SSRF, XXE, command injection, PHP type juggling, PHP file inclusion).*
-
----
+````
 
 ### ctf-web/server-side.md
 
 > Nguồn: `ctf-web/server-side.md`
 
+````markdown
 # CTF Web - Server-Side Injection Attacks
 
 ## Table of Contents
@@ -52778,13 +52777,13 @@ curl 'http://target/?val1=a&val2=1&val3=1&val4=7E1000&val5=a&val6=%2525252525252
 ---
 
 See [server-side-2.md](server-side-2.md) for XXE, XML injection, command injection, GraphQL, and the remaining PHP-specific tricks (variable variables, uniqid, sequential regex bypass).
-
----
+````
 
 ### ctf-web/sql-injection.md
 
 > Nguồn: `ctf-web/sql-injection.md`
 
+````markdown
 # CTF Web - SQL Injection Techniques
 
 Comprehensive SQL injection techniques for CTF challenges. For other server-side attacks (SSTI, SSRF, XXE, command injection, GraphQL), see [server-side.md](server-side.md).
@@ -53575,13 +53574,13 @@ aggies'UNION SELECT 1; #
 **References:** TAMUctf 2019 — Bird Box Challenge, writeup 13860
 
 ---
-
----
+````
 
 ### ctf-web/web3.md
 
 > Nguồn: `ctf-web/web3.md`
 
+````markdown
 # CTF Web - Web3 / Blockchain Challenges
 
 ## Table of Contents
@@ -53956,8 +53955,7 @@ payable(msg.sender).transfer(amount);
 - **Derive child addresses:** `keccak256(rlp.encode([parent_address, nonce]))[-20:]`
 - **Foundry tools:** `cast call` (read), `cast send` (write), `cast storage` (raw slots), `forge create` (deploy)
 - **Sepolia faucets:** Google Cloud faucet (0.05 ETH), Alchemy, QuickNode
-
----
+````
 
 ## ctf-writeup
 
@@ -53965,6 +53963,7 @@ payable(msg.sender).transfer(amount);
 
 > Nguồn: `ctf-writeup/SKILL.md`
 
+````markdown
 ---
 name: ctf-writeup
 description: Generates a single standardized submission-style CTF writeup for competition handoff and organizer review. Use after solving a CTF challenge to document the solution steps, tools used, and lessons learned in a structured format.
@@ -54104,8 +54103,7 @@ Before finalizing the writeup, verify:
 ## Challenge
 
 $ARGUMENTS
-
----
+````
 
 ## solve-challenge
 
@@ -54113,6 +54111,7 @@ $ARGUMENTS
 
 > Nguồn: `solve-challenge/SKILL.md`
 
+````markdown
 ---
 name: solve-challenge
 description: Solves CTF challenges by performing first-pass triage, identifying the dominant category, and routing execution to the right specialized ctf-* skill. Use when the user gives you a challenge bundle, a remote service, a suspicious file, or only a vague challenge description and you must determine where to start. Do not use it when the category is already clear and a specialized skill can be invoked directly; this is the dispatcher and recon entrypoint, not the deepest reference for category-specific techniques.
@@ -54303,5 +54302,4 @@ r.interactive()
 ## Challenge
 
 $ARGUMENTS
-
----
+````
